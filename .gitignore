@@ -1,4 +1,3 @@
-*.tgz
 .vscode
 custom-values.yaml
 debug.yaml
