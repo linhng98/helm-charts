@@ -1,0 +1,132 @@
+{{- $fullName := include "helm-template.fullname" . -}}
+{{ if .Values.argoRollout.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+{{ else }}
+apiVersion: apps/v1
+kind: Deployment
+{{ end }}
+metadata:
+  name: {{ include "helm-template.fullname" . }}
+  labels:
+    {{- include "helm-template.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  {{- if not .Values.argoRollout.enabled }}
+  strategy:
+    {{- toYaml .Values.strategy | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "helm-template.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "helm-template.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "helm-template.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 8 }}
+      containers:
+        - name: {{ .Values.fullnameOverride }}
+          {{- if .Values.sealedSecrets.enabled }}
+          {{- if .Values.sealedSecrets.encryptedData.mapEnv }}
+          env:
+          {{- range .Values.sealedSecrets.encryptedData.mapEnv }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $fullName }}
+                  key: {{ .name }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{ .Values.image.command }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args: {{ .Values.image.args }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.image.containerPort }}
+              protocol: TCP
+          {{- if .Values.image.healthCheck }}
+          {{- toYaml .Values.image.healthCheck | nindent 10 }}
+          {{- end }}
+          env:
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.sealedSecrets.enabled }}
+          {{- if .Values.sealedSecrets.encryptedData.mapFile }}
+          volumeMounts:
+            {{- range .Values.sealedSecrets.encryptedData.mapFile}}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              readOnly: true
+            {{- end }}
+          {{- end }}
+          {{- end }}
+
+        {{- if .Values.fluentd.enabled }}
+        - name: fluentd
+          image: "{{ .Values.fluentd.image }}"
+          ports:
+            - name: fluentd
+              containerPort: {{ .Values.fluentd.port }}
+              protocol: TCP
+        {{- end }}
+
+      {{- if .Values.sealedSecrets.enabled }}
+      {{- if .Values.sealedSecrets.encryptedData.mapFile }}
+      volumes:
+        {{- range .Values.sealedSecrets.encryptedData.mapFile}}
+        - name: {{ .name }}
+          secret: 
+            secretName: {{ $fullName }}
+            items:
+            {{- range .files }}
+              - key: {{ .name }}
+                path: {{ .path }}
+            {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- end }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if and .Values.argoRollout.canary .Values.argoRollout.enabled }}
+  strategy:
+    canary:
+      {{- toYaml .Values.argoRollout.canary | nindent 6 }}
+  {{- end }}
