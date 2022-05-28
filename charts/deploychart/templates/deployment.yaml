@@ -73,7 +73,7 @@ spec:
           env:
             {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
-              value: {{ $value }}
+              value: {{ $value | quote }}
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
