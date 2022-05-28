@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  deploychart:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-05-28T23:43:55.838375308+07:00"
+    description: A Helm chart for deploy common servoce on Kubernetes
+    digest: 15d4daa2438711e45f6622da7a56d6e3b02693bd2390299f728c46515d3d02bd
+    name: deploychart
+    type: application
+    urls:
+    - https://github.com/linhng98/helm-charts/releases/download/deploychart-1.0.0/deploychart-1.0.0.tgz
+    version: 1.0.0
+generated: "2022-05-28T23:43:55.836936369+07:00"
