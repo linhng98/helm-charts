@@ -83,7 +83,7 @@ resources: {}
 sealedSecrets:
   enabled: false
   annotations: {}
-  encryptedData: []
+  encryptedData: {}
 #    mapFile:
 #      - mountPath: /etc/secret
 #        name: awssecret
@@ -118,6 +118,7 @@ persistentVolume:
   accessModes: [ "ReadWriteOnce" ]
   storageClassName: null
   size: 1Gi
+  mountPath: "/path/to/dir"
 
 autoscaling:
   enabled: false

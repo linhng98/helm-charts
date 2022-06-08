@@ -69,16 +69,14 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.sealedSecrets.enabled }}
-          {{- if .Values.sealedSecrets.encryptedData.mapFile }}
           volumeMounts:
+            {{- if and .Values.sealedSecrets.enabled .Values.sealedSecrets.encryptedData.mapFile }}
             {{- range .Values.sealedSecrets.encryptedData.mapFile}}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
               readOnly: true
             {{- end }}
-          {{- end }}
-          {{- end }}
+            {{- end }}
 
         {{- if .Values.fluentd.enabled }}
         - name: fluentd
@@ -89,9 +87,8 @@ spec:
               protocol: TCP
         {{- end }}
 
-      {{- if .Values.sealedSecrets.enabled }}
-      {{- if .Values.sealedSecrets.encryptedData.mapFile }}
       volumes:
+        {{- if and .Values.sealedSecrets.enabled .Values.sealedSecrets.encryptedData.mapFile }}
         {{- range .Values.sealedSecrets.encryptedData.mapFile}}
         - name: {{ .name }}
           secret: 
@@ -102,17 +99,5 @@ spec:
                 path: {{ .path }}
             {{- end }}
         {{- end }}
-      {{- end }}
-      {{- end }}
-  {{- if .Values.persistentVolume.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: {{ $fullName }}
-      spec:
-        accessModes: {{ .Values.persistentVolume.accessModes }}
-        storageClassName: {{ .Values.persistentVolume.storageClassName }}
-        resources:
-          requests:
-            storage: {{ .Values.persistentVolume.size }}
-  {{- end }}
+        {{- end }}
 {{- end }}
