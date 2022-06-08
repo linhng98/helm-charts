@@ -1,7 +1,7 @@
 {{- $fullName := include "helm-template.fullname" . -}}
-{{- if eq .Values.kind "Deployment" }}
+{{- if eq .Values.kind "StatefulSet" }}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ $fullName }}
   labels:
@@ -10,6 +10,7 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  serviceName: {{ $fullName }}
   selector:
     matchLabels:
       {{- include "helm-template.selectorLabels" . | nindent 6 }}

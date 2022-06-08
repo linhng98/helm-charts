@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+kind: Deployment
+
 image:
   repository: nginx
   pullPolicy: IfNotPresent
@@ -21,20 +23,6 @@ strategy:
   rollingUpdate:
     maxUnavailable: 1
     maxSurge: 1
-
-argoRollout:
-  enabled: false
-#  canary:
-#    steps:
-#    - setWeight: 25
-#    - pause:
-#        duration: 120s
-#    - setWeight: 50
-#    - pause: 
-#        duration: 120s
-#    - setWeight: 75
-#    - pause: 
-#        duration: 120s
 
 imagePullSecrets: []
 nameOverride: ""
@@ -124,6 +112,12 @@ env: {}
   #LISTEN_PORT: 8080
   #GOOGLE_APPLICATION_CREDENTIALS: credentials/service_accounts/lotusfarm-cdn.json
   #SERVICE_DOMAIN: https://storage.googleapis.com/lotusfarm-cd
+
+persistentVolume:
+  enabled: false
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: null
+  size: 1Gi
 
 autoscaling:
   enabled: false
