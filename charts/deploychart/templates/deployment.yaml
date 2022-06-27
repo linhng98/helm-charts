@@ -77,6 +77,11 @@ spec:
               readOnly: true
             {{- end }}
             {{- end }}
+            {{- range .Values.mountConfigmap }}
+            - name: {{ $fullName }}-configmap-volume
+              mountPath: {{ .path }}
+              subPath: {{ .name }}
+            {{- end }}            
 
         {{- if .Values.fluentd.enabled }}
         - name: fluentd
@@ -99,5 +104,15 @@ spec:
                 path: {{ .path }}
             {{- end }}
         {{- end }}
+        {{- end }}
+        {{- if .Values.mountConfigmap }}
+        - name: {{ $fullName }}-configmap-volume
+          configMap:
+            name: {{ $fullName }}-configmap
+            items:
+              {{- range .Values.mountConfigmap}}
+              - key: {{ .name }}
+                path: {{ .name }}
+              {{- end }}
         {{- end }}
 {{- end }}

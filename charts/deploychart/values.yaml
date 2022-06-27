@@ -113,6 +113,10 @@ env: {}
   #GOOGLE_APPLICATION_CREDENTIALS: credentials/service_accounts/lotusfarm-cdn.json
   #SERVICE_DOMAIN: https://storage.googleapis.com/lotusfarm-cd
 
+configmap: {}
+
+mountConfigmap: []
+
 persistentVolume:
   enabled: false
   accessModes: [ "ReadWriteOnce" ]
