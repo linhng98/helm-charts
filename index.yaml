@@ -3,7 +3,17 @@ entries:
   deploychart:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2022-06-27T22:57:03.828138889+07:00"
+    created: "2022-07-04T23:52:11.054641863+07:00"
+    description: A Helm chart for deploy common servoce on Kubernetes
+    digest: 813ebb2c01c8c2f1b078f778246ce88d323a3f1e89725f53a77dfb5c62bf444a
+    name: deploychart
+    type: application
+    urls:
+    - https://github.com/linhng98/helm-charts/raw/master/releases/deploychart-2.2.0.tgz
+    version: 2.2.0
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-04T23:52:11.053997554+07:00"
     description: A Helm chart for deploy common servoce on Kubernetes
     digest: 2174d543074a83378feac90fae54540516beb7e6c822911d1fec48107164bbf4
     name: deploychart
@@ -13,7 +23,7 @@ entries:
     version: 2.1.0
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2022-06-27T22:57:03.82733977+07:00"
+    created: "2022-07-04T23:52:11.053262265+07:00"
     description: A Helm chart for deploy common servoce on Kubernetes
     digest: 9b509dda52081e9f7f2082fdd4b84f2bb500efb739ee36867ca8e7a68ecbd279
     name: deploychart
@@ -23,7 +33,7 @@ entries:
     version: 2.0.1
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2022-06-27T22:57:03.826826552+07:00"
+    created: "2022-07-04T23:52:11.052871773+07:00"
     description: A Helm chart for deploy common servoce on Kubernetes
     digest: b5a1d7ba191b9284d65b23666d750ed19c50478eda3074d073c6be9e80c4839a
     name: deploychart
@@ -33,7 +43,7 @@ entries:
     version: 2.0.0
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2022-06-27T22:57:03.826402046+07:00"
+    created: "2022-07-04T23:52:11.052341685+07:00"
     description: A Helm chart for deploy common servoce on Kubernetes
     digest: f67daf9add67394246fb3321539900152388ee6839d14fd67c65e26989839842
     name: deploychart
@@ -43,7 +53,7 @@ entries:
     version: 1.0.2
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2022-06-27T22:57:03.825943544+07:00"
+    created: "2022-07-04T23:52:11.05189982+07:00"
     description: A Helm chart for deploy common servoce on Kubernetes
     digest: dcb40ddbdfade9a73f16a2f00329baf340086d6b9880c5bdf5bf021945fbc187
     name: deploychart
@@ -53,7 +63,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2022-06-27T22:57:03.825492718+07:00"
+    created: "2022-07-04T23:52:11.051434989+07:00"
     description: A Helm chart for deploy common servoce on Kubernetes
     digest: 6483ef3758f927c2e761c26202cd8f4091dc4958131c2cc73567a0771a0f96c6
     name: deploychart
@@ -61,4 +71,4 @@ entries:
     urls:
     - https://github.com/linhng98/helm-charts/raw/master/releases/deploychart-1.0.0.tgz
     version: 1.0.0
-generated: "2022-06-27T22:57:03.824954843+07:00"
+generated: "2022-07-04T23:52:11.05085926+07:00"
