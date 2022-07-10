@@ -109,7 +109,7 @@ spec:
             items:
             {{- range .files }}
               - key: {{ .name }}
-                path: {{ .path }}
+                path: {{ .path | default .name }}
             {{- end }}
         {{- end }}
         {{- end }}
