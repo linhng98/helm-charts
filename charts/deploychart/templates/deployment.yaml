@@ -70,7 +70,6 @@ spec:
           {{- if .Values.image.healthCheck }}
           {{- toYaml .Values.image.healthCheck | nindent 10 }}
           {{- end }}
-          env:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
