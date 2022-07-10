@@ -38,18 +38,22 @@ spec:
         {{- toYaml .Values.initContainers | nindent 8 }}
       containers:
         - name: {{ .Values.fullnameOverride }}
-          {{- if .Values.sealedSecrets.enabled }}
-          {{- if .Values.sealedSecrets.encryptedData.mapEnv }}
           env:
-          {{- range .Values.sealedSecrets.encryptedData.mapEnv }}
+            {{- if .Values.sealedSecrets.enabled }}
+            {{- if .Values.sealedSecrets.encryptedData.mapEnv }}
+            {{- range .Values.sealedSecrets.encryptedData.mapEnv }}
             - name: {{ .name }}
               valueFrom:
                 secretKeyRef:
                   name: {{ $fullName }}
                   key: {{ .name }}
-          {{- end }}
-          {{- end }}
-          {{- end }}
+            {{- end }}
+            {{- end }}
+            {{- end }}
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}"
@@ -67,11 +71,6 @@ spec:
           {{- if .Values.image.healthCheck }}
           {{- toYaml .Values.image.healthCheck | nindent 10 }}
           {{- end }}
-          env:
-            {{- range $key, $value := .Values.env }}
-            - name: {{ $key }}
-              value: {{ $value | quote }}
-            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
