@@ -39,6 +39,8 @@ serviceAccount:
 
 podAnnotations: {}
 
+additionLabels: {}
+
 podSecurityContext: {}
   # fsGroup: 2000
 
@@ -100,7 +102,7 @@ sealedSecrets:
 #          - name: gcp-secret.json
 #            value: OK
 #            path: /gcp
-  mapEnv: []
+#   mapEnv: []
 #      - name : SECRET
 #        value: OK
   secretMetadata:
@@ -115,7 +117,11 @@ env: {}
 
 configmap: {}
 
+configmapLabels: {}
+
 mountConfigmap: []
+#  - name: file.json
+#    path: /config/file.json
 
 persistentVolume:
   enabled: false
@@ -123,6 +129,10 @@ persistentVolume:
   storageClassName: null
   size: 1Gi
   mountPath: "/path/to/dir"
+
+mountVolumes: []
+#  - name: test-claim
+#    mountPath: /data
 
 autoscaling:
   enabled: false

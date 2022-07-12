@@ -6,6 +6,9 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "helm-template.labels" . | nindent 4 }}
+    {{- if .Values.additionLabels }}
+    {{- toYaml .Values.additionLabels | nindent 4 }}
+    {{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -21,6 +24,9 @@ spec:
       {{- end }}
       labels:
         {{- include "helm-template.selectorLabels" . | nindent 8 }}
+        {{- if .Values.additionLabels }}
+        {{- toYaml .Values.additionLabels | nindent 8 }}
+        {{- end }}
     spec:
       nodeSelector:
         {{- toYaml .Values.nodeSelector | nindent 8 }}
@@ -84,7 +90,11 @@ spec:
             - name: {{ $fullName }}-configmap-volume
               mountPath: {{ .path }}
               subPath: {{ .name }}
-            {{- end }}            
+            {{- end }}
+            {{- range .Values.mountVolumes }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+            {{- end }}
 
         {{- if .Values.fluentd.enabled }}
         - name: fluentd
@@ -117,5 +127,10 @@ spec:
               - key: {{ .name }}
                 path: {{ .name }}
               {{- end }}
+        {{- end }}
+        {{- range .Values.mountVolumes }}
+        - name: {{ .name }}
+          persistentVolumeClaim:
+            claimName: {{ .name }}
         {{- end }}
 {{- end }}
