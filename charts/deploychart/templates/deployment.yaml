@@ -75,10 +75,12 @@ spec:
           {{- if .Values.image.args }}
           args: {{ .Values.image.args }}
           {{- end }}
+          {{- if .Values.image.containerPort }}
           ports:
             - name: http
               containerPort: {{ .Values.image.containerPort }}
               protocol: TCP
+          {{- end }}
           {{- if .Values.image.healthCheck }}
           {{- toYaml .Values.image.healthCheck | nindent 10 }}
           {{- end }}
