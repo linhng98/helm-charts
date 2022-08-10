@@ -61,6 +61,8 @@ spec:
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
+          envFrom:
+            {{- toYaml .Values.envFrom | nindent 12 }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           {{- if .Values.image.tag }}
@@ -112,6 +114,8 @@ spec:
               containerPort: {{ .Values.fluentd.port }}
               protocol: TCP
         {{- end }}
+
+        {{- toYaml .Values.sidecarContainers | nindent 8 }}
 
       volumes:
         {{- if and .Values.sealedSecrets.enabled .Values.sealedSecrets.encryptedData.mapFile }}

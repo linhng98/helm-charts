@@ -12,6 +12,13 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: null
 
+envFrom: []
+
+sidecarContainers: []
+#  - name: hello
+#    image: busybox:1.28
+#    command: ['sh', '-c', 'echo "Hello, Kubernetes!" && sleep 3600']
+
 initContainers: []
 
 fluentd:
