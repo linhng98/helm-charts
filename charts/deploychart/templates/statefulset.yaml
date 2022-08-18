@@ -110,7 +110,6 @@ spec:
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
             {{- end }}
-        {{- toYaml .Values.sidecarContainers | nindent 8 }}
 
         {{- if .Values.fluentd.enabled }}
         - name: fluentd
@@ -119,6 +118,10 @@ spec:
             - name: fluentd
               containerPort: {{ .Values.fluentd.port }}
               protocol: TCP
+        {{- end }}
+        
+        {{- if .Values.sidecarContainers }}
+        {{- toYaml .Values.sidecarContainers | nindent 8 }}
         {{- end }}
 
       volumes:
