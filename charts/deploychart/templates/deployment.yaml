@@ -36,6 +36,9 @@ spec:
         {{- toYaml .Values.tolerations | nindent 8 }}
       affinity:
         {{- toYaml .Values.affinity | nindent 8 }}
+      {{- if .Values.priorityClass }}
+      priorityClass: {{ .Values.priorityClass }}
+      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

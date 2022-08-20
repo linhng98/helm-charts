@@ -1,5 +1,10 @@
 # Change log
 
+## 3.0.0
+- Support sidecar container
+- Support envFrom
+- Support priorityClass
+- Support affinity
 ## 2.5.0
 - Support seperate tag from repo
 ## 2.4.0
