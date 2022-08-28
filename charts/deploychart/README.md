@@ -1,5 +1,7 @@
 # Change log
 
+## 3.0.1
+- Fix cmd, args template wrong format
 ## 3.0.0
 - Support sidecar container
 - Support envFrom

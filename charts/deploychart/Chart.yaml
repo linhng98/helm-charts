@@ -3,4 +3,4 @@ appVersion: 1.0.0
 description: A Helm chart for deploy common servoce on Kubernetes
 name: deploychart
 type: application
-version: 3.0.0
+version: 3.0.1
