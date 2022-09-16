@@ -1,5 +1,8 @@
 # Change log
 
+# 3.0.3
+- Disable ingress by default
+
 # 3.0.2
 - Support non-listen port container
 - Addition annotation to replicaset resource type
