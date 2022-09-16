@@ -11,6 +11,11 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: null
+  containerPort: null
+
+additionAnnotations: {}
+
+additionLabels: {}
 
 envFrom: []
 
@@ -47,8 +52,6 @@ serviceAccount:
 priorityClass: ""
 
 podAnnotations: {}
-
-additionLabels: {}
 
 podSecurityContext: {}
   # fsGroup: 2000

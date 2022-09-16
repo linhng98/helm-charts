@@ -9,6 +9,10 @@ metadata:
     {{- if .Values.additionLabels }}
     {{- toYaml .Values.additionLabels | nindent 4 }}
     {{- end }}
+  annotations:
+    {{- if .Values.additionAnnotations }}
+    {{- toYaml .Values.additionAnnotations | nindent 4 }}
+    {{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
