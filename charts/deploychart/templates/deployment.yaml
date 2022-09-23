@@ -34,6 +34,7 @@ spec:
         {{- toYaml .Values.additionLabels | nindent 8 }}
         {{- end }}
     spec:
+      hostIPC: {{ .Values.hostIPC }}
       nodeSelector:
         {{- toYaml .Values.nodeSelector | nindent 8 }}
       tolerations:
@@ -158,4 +159,5 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .name }}
         {{- end }}
+        {{- toYaml .Values.extraVolumes | nindent 8 }}
 {{- end }}

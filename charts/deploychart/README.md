@@ -1,5 +1,8 @@
 # Change log
 
+# 3.0.4
+- Add extraVolumes, allow hostIPC
+
 # 3.0.3
 - Disable ingress by default
 

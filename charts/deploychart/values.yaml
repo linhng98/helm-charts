@@ -13,6 +13,8 @@ image:
   tag: null
   containerPort: null
 
+hostIPC: false
+
 additionAnnotations: {}
 
 additionLabels: {}
@@ -145,6 +147,10 @@ persistentVolume:
 mountVolumes: []
 #  - name: test-claim
 #    mountPath: /data
+
+mountHostPath: []
+
+extraVolumes: []
 
 autoscaling:
   enabled: false
