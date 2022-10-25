@@ -41,8 +41,8 @@ spec:
       affinity:
         {{- toYaml .Values.affinity | nindent 8 }}
       {{- with .Values.imagePullSecrets }}
-      {{- if .Values.priorityClass }}
-      priorityClass: {{ .Values.priorityClass }}
+      {{- if .Values.priorityClassName }}
+      priorityClassName : {{ .Values.priorityClassName }}
       {{- end }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

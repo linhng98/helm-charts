@@ -1,5 +1,8 @@
 # Change log
 
+# 3.0.5
+- Fix priorityClassName
+
 # 3.0.4
 - Add extraVolumes, allow hostIPC
 
