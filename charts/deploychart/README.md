@@ -1,5 +1,8 @@
 # Change log
 
+# 3.0.6
+- Fix extraVolumesMount not exist
+
 # 3.0.5
 - Fix priorityClassName
 
