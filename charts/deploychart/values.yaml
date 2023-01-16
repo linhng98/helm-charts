@@ -144,13 +144,13 @@ persistentVolume:
   size: 1Gi
   mountPath: "/path/to/dir"
 
-mountVolumes: []
-#  - name: test-claim
-#    mountPath: /data
+volumeMounts: []
 
 mountHostPath: []
 
 extraVolumes: []
+
+mountPVCs: []
 
 autoscaling:
   enabled: false

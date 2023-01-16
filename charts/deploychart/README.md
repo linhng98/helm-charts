@@ -1,5 +1,7 @@
 # Change log
 
+# 3.1.0
+- Add `volumeMounts` block, rename `mountVolumes` to `mountPVCs`
 # 3.0.6
 - Fix extraVolumesMount not exist
 

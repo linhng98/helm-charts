@@ -116,9 +116,12 @@ spec:
               mountPath: {{ .path }}
               subPath: {{ .name }}
             {{- end }}
-            {{- range .Values.mountVolumes }}
+            {{- range .Values.mountPVCs }}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
+            {{- end }}
+            {{- with .Values.volumeMounts }}
+              {{- toYaml . | nindent 12 }}
             {{- end }}
 
         {{- if .Values.fluentd.enabled }}
@@ -157,7 +160,7 @@ spec:
                 path: {{ .name }}
               {{- end }}
         {{- end }}
-        {{- range .Values.mountVolumes }}
+        {{- range .Values.mountPVCs }}
         - name: {{ .name }}
           persistentVolumeClaim:
             claimName: {{ .name }}
