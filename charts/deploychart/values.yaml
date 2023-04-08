@@ -10,8 +10,14 @@ image:
   repository: nginx
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: null
-  containerPort: null
+  tag: stable-alpine3.17
+  containerPort: 80
+  containerPortName: http
+
+extraServicePorts:
+  - port: 443
+    protocol: TCP
+    name: https
 
 hostIPC: false
 
