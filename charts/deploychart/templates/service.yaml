@@ -11,7 +11,13 @@ spec:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.image.containerPort }}
       protocol: TCP
-      name: http
+      name: {{ .Values.image.containerPortName }}
+    {{- range .Values.extraServicePorts  }}
+    - port: {{ .port }}
+      targetPort: {{ .targetPort | default .port }}
+      protocol: {{ .protocol | default "TCP" }}
+      name: {{ .name }}
+    {{- end }}
   selector:
     {{- include "helm-template.selectorLabels" . | nindent 4 }}
 {{- end }}
