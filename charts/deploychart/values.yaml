@@ -20,6 +20,8 @@ extraServicePorts:
     name: https
 
 hostIPC: false
+hostPID: false
+hostNetwork: false
 
 additionAnnotations: {}
 
@@ -76,8 +78,27 @@ service:
   type: ClusterIP
   port: 80
 
+serviceMonitor:
+  enabled: false
+  targetPort: metrics
+  path: /metrics
+  additionalLabels: {}
+  ## The label to use to retrieve the job name from.
+  ## jobLabel: "app.kubernetes.io/name"
+  namespaceSelector: {}
+  ## Default: scrape .Release.Namespace only
+  ## To scrape all, use the following:
+  ## namespaceSelector:
+  ##   any: true
+  scrapeInterval: 30s
+  # honorLabels: true
+  targetLabels: []
+  relabelings: []
+  metricRelabelings: []
+
 ingress:
   enabled: false
+  ingressClassName: nginx
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -151,8 +172,6 @@ persistentVolume:
   mountPath: "/path/to/dir"
 
 volumeMounts: []
-
-mountHostPath: []
 
 extraVolumes: []
 

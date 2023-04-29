@@ -1,5 +1,12 @@
 # Change log
 
+# 4.0.0 (**! BREAKING CHANGE**)
+
+- Support service monitor
+- Support hostNetwork, hostPID
+- Support DaemonSet
+- Rename **className** to **ingressClassName**
+
 # 3.2.0
 
 - Support multi ports inside single service
