@@ -1,5 +1,9 @@
 # Change log
 
+# 4.0.1
+
+- fix syntax `.Values.extraVolumes`
+
 # 4.0.0 (**! BREAKING CHANGE**)
 
 - Support service monitor

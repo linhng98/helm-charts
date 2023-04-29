@@ -122,7 +122,9 @@ spec:
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
             {{- end }}
+            {{- if .Values.volumeMounts }}
             {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- end }}
 
         {{- if .Values.fluentd.enabled }}
         - name: fluentd
@@ -165,7 +167,9 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .name }}
         {{- end }}
+        {{- if .Values.extraVolumes }}
         {{- toYaml .Values.extraVolumes | nindent 8 }}
+        {{- end }}
   {{- if .Values.persistentVolume.enabled }}
   volumeClaimTemplates:
     - metadata:
