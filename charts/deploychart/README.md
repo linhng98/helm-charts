@@ -1,5 +1,10 @@
 # Change log
 
+# 4.0.2
+
+- Change hpa apiVersion to autoscaling/v2
+- Remove default extraServicePort
+
 # 4.0.1
 
 - fix syntax `.Values.extraVolumes`
