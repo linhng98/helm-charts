@@ -11,7 +11,7 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: stable-alpine3.17
-  containerPort: 80
+  containerPort: null
   containerPortName: http
 
 extraServicePorts: []

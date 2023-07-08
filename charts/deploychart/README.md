@@ -1,5 +1,10 @@
 # Change log
 
+# 4.0.3
+
+- Default use releaseName for container name
+- Remove default port number
+
 # 4.0.2
 
 - Change hpa apiVersion to autoscaling/v2

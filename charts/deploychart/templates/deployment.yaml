@@ -56,7 +56,7 @@ spec:
       initContainers:
         {{- toYaml .Values.initContainers | nindent 8 }}
       containers:
-        - name: {{ .Values.fullnameOverride }}
+        - name: {{ .Values.fullnameOverride | default $fullName }}
           env:
             {{- if .Values.sealedSecrets.enabled }}
             {{- if .Values.sealedSecrets.encryptedData.mapEnv }}
