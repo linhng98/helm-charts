@@ -89,7 +89,7 @@ spec:
           {{- end }}
           {{- if .Values.image.args }}
           args:
-            {{- toYaml .Values.image.command | nindent 12 }}
+            {{- toYaml .Values.image.args | nindent 12 }}
           {{- end }}
           {{- if .Values.image.containerPort }}
           ports:

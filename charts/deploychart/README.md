@@ -1,5 +1,9 @@
 # Change log
 
+# 4.0.4
+
+- Fix args
+
 # 4.0.3
 
 - Default use releaseName for container name
