@@ -14,7 +14,7 @@ metadata:
     {{- toYaml .Values.additionAnnotations | nindent 4 }}
     {{- end }}
 spec:
-  schedule: {{ .Values.cronjobSpec.schedule }}
+  schedule: {{ .Values.cronjobSpec.schedule | quote }}
   timeZone: {{ .Values.cronjobSpec.timeZone }}
   concurrencyPolicy: {{ .Values.cronjobSpec.concurrencyPolicy }}
   startingDeadlineSeconds: {{ .Values.cronjobSpec.startingDeadlineSeconds }}

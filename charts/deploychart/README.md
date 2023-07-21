@@ -1,5 +1,9 @@
 # Change log
 
+# 4.1.1
+
+- Fix quote schedule string in CronJobSpec due to asterisk charactor
+
 # 4.1.0
 
 - Add cronjob support
