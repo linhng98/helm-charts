@@ -1,5 +1,9 @@
 # Change log
 
+# 4.1.0
+
+- Add cronjob support
+
 # 4.0.4
 
 - Fix args

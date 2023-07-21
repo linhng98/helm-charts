@@ -1,0 +1,174 @@
+{{- $fullName := include "helm-template.fullname" . -}}
+{{- if eq .Values.kind "CronJob" }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "helm-template.labels" . | nindent 4 }}
+    {{- if .Values.additionLabels }}
+    {{- toYaml .Values.additionLabels | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- if .Values.additionAnnotations }}
+    {{- toYaml .Values.additionAnnotations | nindent 4 }}
+    {{- end }}
+spec:
+  schedule: {{ .Values.cronjobSpec.schedule }}
+  timeZone: {{ .Values.cronjobSpec.timeZone }}
+  concurrencyPolicy: {{ .Values.cronjobSpec.concurrencyPolicy }}
+  startingDeadlineSeconds: {{ .Values.cronjobSpec.startingDeadlineSeconds }}
+  suspend: {{ .Values.cronjobSpec.suspend }}
+  successfulJobsHistoryLimit: {{ .Values.cronjobSpec.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.cronjobSpec.failedJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      backoffLimit: {{ .Values.cronjobSpec.backoffLimit }}
+      template:
+        metadata:
+          {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            {{- include "helm-template.selectorLabels" . | nindent 12 }}
+            {{- if .Values.additionLabels }}
+            {{- toYaml .Values.additionLabels | nindent 12 }}
+            {{- end }}
+        spec:
+          restartPolicy: {{ .Values.cronjobSpec.restartPolicy }}
+          hostIPC: {{ .Values.hostIPC }}
+          hostPID: {{ .Values.hostPID }}
+          hostNetwork: {{ .Values.hostNetwork }}
+          nodeSelector:
+            {{- toYaml .Values.nodeSelector | nindent 12 }}
+          tolerations:
+            {{- toYaml .Values.tolerations | nindent 12 }}
+          affinity:
+            {{- toYaml .Values.affinity | nindent 12 }}
+          {{- if .Values.priorityClassName }}
+          priorityClassName: {{ .Values.priorityClassName }}
+          {{- end }}
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "helm-template.serviceAccountName" . }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          initContainers:
+            {{- toYaml .Values.initContainers | nindent 12 }}
+          containers:
+            - name: {{ .Values.fullnameOverride | default $fullName }}
+              env:
+                {{- if .Values.sealedSecrets.enabled }}
+                {{- if .Values.sealedSecrets.encryptedData.mapEnv }}
+                {{- range .Values.sealedSecrets.encryptedData.mapEnv }}
+                - name: {{ .name }}
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ $fullName }}
+                      key: {{ .name }}
+                {{- end }}
+                {{- end }}
+                {{- end }}
+                {{- range $key, $value := .Values.env }}
+                - name: {{ $key }}
+                  value: {{ $value | quote }}
+                {{- end }}
+              envFrom:
+                {{- toYaml .Values.envFrom | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.securityContext | nindent 16 }}
+              {{- if .Values.image.tag }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              {{- else }}
+              image: "{{ .Values.image.repository }}"
+              {{- end }}
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              {{- if .Values.image.command }}
+              command:
+                {{- toYaml .Values.image.command | nindent 16 }}
+              {{- end }}
+              {{- if .Values.image.args }}
+              args:
+                {{- toYaml .Values.image.args | nindent 16 }}
+              {{- end }}
+              {{- if .Values.image.containerPort }}
+              ports:
+                - name: http
+                  containerPort: {{ .Values.image.containerPort }}
+                  protocol: TCP
+              {{- end }}
+              {{- if .Values.image.healthCheck }}
+              {{- toYaml .Values.image.healthCheck | nindent 14 }}
+              {{- end }}
+              resources:
+                {{- toYaml .Values.resources | nindent 16 }}
+              volumeMounts:
+                {{- if and .Values.sealedSecrets.enabled .Values.sealedSecrets.encryptedData.mapFile }}
+                {{- range .Values.sealedSecrets.encryptedData.mapFile}}
+                - name: {{ .name }}
+                  mountPath: {{ .mountPath }}
+                  readOnly: true
+                {{- end }}
+                {{- end }}
+                {{- range .Values.mountConfigmap }}
+                - name: {{ $fullName }}-configmap-volume
+                  mountPath: {{ .path }}
+                  subPath: {{ .name }}
+                {{- end }}
+                {{- range .Values.mountPVCs }}
+                - name: {{ .name }}
+                  mountPath: {{ .mountPath }}
+                {{- end }}
+                {{- if .Values.volumeMounts }}
+                {{- toYaml .Values.volumeMounts | nindent 16 }}
+                {{- end }}
+
+            {{- if .Values.fluentd.enabled }}
+            - name: fluentd
+              image: "{{ .Values.fluentd.image }}"
+              ports:
+                - name: fluentd
+                  containerPort: {{ .Values.fluentd.port }}
+                  protocol: TCP
+            {{- end }}
+
+            {{- if .Values.sidecarContainers }}
+            {{- toYaml .Values.sidecarContainers | nindent 12 }}
+            {{- end }}
+
+          volumes:
+            {{- if and .Values.sealedSecrets.enabled .Values.sealedSecrets.encryptedData.mapFile }}
+            {{- range .Values.sealedSecrets.encryptedData.mapFile}}
+            - name: {{ .name }}
+              secret: 
+                secretName: {{ $fullName }}
+                items:
+                {{- range .files }}
+                  - key: {{ .name }}
+                    path: {{ .path | default .name }}
+                {{- end }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.mountConfigmap }}
+            - name: {{ $fullName }}-configmap-volume
+              configMap:
+                name: {{ $fullName }}-configmap
+                items:
+                  {{- range .Values.mountConfigmap}}
+                  - key: {{ .name }}
+                    path: {{ .name }}
+                  {{- end }}
+            {{- end }}
+            {{- range .Values.mountPVCs }}
+            - name: {{ .name }}
+              persistentVolumeClaim:
+                claimName: {{ .name }}
+            {{- end }}
+            {{- if .Values.extraVolumes }}
+            {{- toYaml .Values.extraVolumes | nindent 12 }}
+            {{- end }}
+{{- end }}
+

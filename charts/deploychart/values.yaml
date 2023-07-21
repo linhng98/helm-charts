@@ -11,8 +11,22 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: stable-alpine3.17
+  command: []
+  args: []
   containerPort: null
   containerPortName: http
+
+# cronjobSpec apply for kind CronJob only
+cronjobSpec:
+  schedule: "0 0 * * *"
+  restartPolicy: Never
+  backoffLimit: 0
+  timeZone: "Etc/UTC"
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 600
+  suspend: false
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
 
 extraServicePorts: []
 #   - port: 443
