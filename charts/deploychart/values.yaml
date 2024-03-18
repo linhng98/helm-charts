@@ -13,8 +13,10 @@ image:
   tag: stable-alpine3.17
   command: []
   args: []
-  containerPort: null
-  containerPortName: http
+  containerPorts: []
+    #- name: http
+    #  containerPort: 80
+    #  protocol: TCP
 
 # cronjobSpec apply for kind CronJob only
 cronjobSpec:
@@ -27,11 +29,6 @@ cronjobSpec:
   suspend: false
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
-
-extraServicePorts: []
-#   - port: 443
-#     protocol: TCP
-#     name: https
 
 hostIPC: false
 hostPID: false
@@ -92,7 +89,11 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 80
+  ports: []
+    #- name: http
+    #  port: 80
+    #  targetPort: 80
+    #  protocol: TCP
 
 serviceMonitor:
   enabled: false

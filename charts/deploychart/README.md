@@ -1,5 +1,9 @@
 # Change log
 
+# 4.2.0
+
+- Add support expose multiple ports for primary container
+
 # 4.1.1
 
 - Fix quote schedule string in CronJobSpec due to asterisk charactor

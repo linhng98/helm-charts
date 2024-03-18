@@ -1,4 +1,4 @@
-{{- if .Values.image.containerPort }}
+{{- if .Values.image.containerPorts }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -8,13 +8,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.image.containerPort }}
-      protocol: TCP
-      name: {{ .Values.image.containerPortName }}
-    {{- range .Values.extraServicePorts  }}
+    {{- range .Values.service.ports  }}
     - port: {{ .port }}
-      targetPort: {{ .targetPort | default .port }}
+      targetPort: {{ .targetPort }}
       protocol: {{ .protocol | default "TCP" }}
       name: {{ .name }}
     {{- end }}
