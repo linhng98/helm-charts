@@ -1,5 +1,9 @@
 # Change log
 
+# 4.2.1
+
+- Fix bug from 4.2.0
+
 # 4.2.0
 
 - Add support expose multiple ports for primary container

@@ -86,8 +86,8 @@ spec:
           args:
             {{- toYaml .Values.image.args | nindent 12 }}
           {{- end }}
-          {{- range .Values.image.containerPorts }}
           ports:
+          {{- range .Values.image.containerPorts }}
             - name: {{ .name }}
               containerPort: {{ .containerPort }}
               protocol: {{ .protocol | default "TCP" }}
