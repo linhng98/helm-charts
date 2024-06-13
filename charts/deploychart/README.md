@@ -1,5 +1,9 @@
 # Change log
 
+# 4.3.0
+
+- Support custom port name and port number ingress
+
 # 4.2.1
 
 - Fix bug from 4.2.0

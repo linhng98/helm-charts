@@ -1,6 +1,5 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "helm-template.fullname" . -}}
-{{- $svcPort := .Values.ingress.servicePort -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -35,7 +34,8 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: {{ default 80 $svcPort }}
+                  number: {{ .portNumber }}
+                  name: {{ .portName }}
           {{- end }}
     {{- end }}
   {{- end }}
